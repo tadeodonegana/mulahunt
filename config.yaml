@@ -1,0 +1,23 @@
+database:
+  redshift:
+    host: db
+    port: 5432
+    dbname: mule
+    user: postgres
+    password: ${REDSHIFT_PASSWORD}
+
+modules:
+  - name: transaction_volume_threshold
+    class: modules.volume_threshold.VolumeThresholdModule
+    enabled: true
+    weight: 0.5
+    parameters:
+      window_days: 365
+      volume_threshold: 10000
+  - name: transaction_frequency
+    class: modules.transaction_frequency.TxFrequencyModule
+    enabled: true
+    weight: 0.5
+    parameters:
+      window_days: 365
+      tx_count_threshold: 50
